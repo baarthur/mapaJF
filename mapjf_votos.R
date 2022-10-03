@@ -68,3 +68,5 @@ juiz_de_fora_bairros %>%
   tm_shape() +
   tm_fill(col = "steelblue4", alpha = 0.75) +
   tm_borders(col = "#FEBF57")
+
+saveRDS(juiz_de_fora_bairros, file = "data/mapjf_bairros.RDS")

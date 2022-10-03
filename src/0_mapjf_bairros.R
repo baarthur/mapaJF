@@ -26,14 +26,14 @@ mapa_base <- ggplot() +
   theme_void()
 
 ### tmap
-juiz_de_fora_zonas 
+juiz_de_fora_zonas %>% 
   tm_shape() +
   tm_fill(col = "steelblue4", alpha = 0.75) +
   tm_borders(col = "#FEBF57")
 
 
 # base ibge -------------------------------------------------------------------
-base_ibge <- readRDS("base_ibge.rds") %>%
+base_ibge <- readRDS("data/base_ibge.rds") %>%
   select(Cod_setor, Cod_municipio:Nome_do_bairro) %>%
   filter(Nome_do_municipio == "JUIZ DE FORA") %>%
   rename(code_tract = Cod_setor)
@@ -53,6 +53,12 @@ juiz_de_fora_bairros <- juiz_de_fora_agregado %>%
   #st_simplify(dTolerance = 0.07)
 
 
+
+# salvando shapefile -------------------------------------------------------------------
+saveRDS(juiz_de_fora_bairros, "data/shp_bairros_jf.RDS")
+
+
+
 # mapa de bairros -------------------------------------------------------------------
 
 ## ggplot
@@ -64,6 +70,7 @@ mapa_bairros <- juiz_de_fora_bairros %>%
   theme_void()
 
 
+## tmap
 juiz_de_fora_bairros %>%
   tm_shape() +
   tm_fill(col = "steelblue4", alpha = 0.75) +
