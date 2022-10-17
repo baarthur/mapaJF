@@ -75,3 +75,24 @@ juiz_de_fora_bairros %>%
   tm_shape() +
   tm_fill(col = "steelblue4", alpha = 0.75) +
   tm_borders(col = "#FEBF57")
+
+
+# mapa de bairros - oficial PJF -------------------------------------------------------------------
+
+shp_bairros_pjf <- sf::read_sf("data/shp_bairros_pjf.gpkg") %>% 
+  st_transform(crs = 4326)
+
+## ggplot
+mapa_bairros_oficial <- shp_bairros_pjf %>% 
+  ggplot() +
+  geom_sf(aes(fill = rend_pc)) +
+  scale_fill_viridis_b() +
+  labs(title = "Bairros de Juiz de Fora",
+       caption = "Fonte: elaboração própria com base nos dados do IBGE") +
+  theme_void()
+
+## tmap
+shp_bairros_pjf %>% 
+  tm_shape() +
+  tm_fill(col = "rend_pc", palette = "viridis", alpha = 0.75) +
+  tm_borders(col = "black")

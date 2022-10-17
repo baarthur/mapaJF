@@ -26,3 +26,4 @@ mapa_secoes %>%
   tm_shape(shp_secoes_jf) +
   tm_dots(col = "red")
 
+

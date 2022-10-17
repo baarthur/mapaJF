@@ -20,8 +20,12 @@ query_tse <- "SELECT zona, secao, melhor_urbano, melhor_rural
 # baixando dados -------------------------------------------------------------------
 df_tse <- basedosdados::download(query = query_tse, path = ("data/tse_jf_20221002.csv"))  
 
-df_secoes <- read.csv(df_tse)
+df_secoes <- read.csv("data/tse_jf_20221002.csv")
 
+
+df_tse_completa <- basedosdados::download(query = query_tse_completa, path = ("data/tse_jf_completa_20221002.csv"))  
+
+df_secoes_completa <- read.csv("data/tse_jf_completa_20221002.csv")
 
 
 # organizando os dados -------------------------------------------------------------------
@@ -61,7 +65,14 @@ shp_secoes <- df_secoes2 %>%
 saveRDS(shp_secoes, "data/shp_secoes_2020.RDS")
 
 ## mapa para conferência
-shp_tse %>% 
+shp_secoes %>% 
   tm_shape() +
   tm_dots(col = "red")
+
+tm_shape(shp_bairros_jf) +
+  tm_fill(col = "steelblue4") +
+  tm_borders(col = "#FEBF57") +
+  tm_shape(shp_secoes_jf) +
+  tm_dots(col = "red")
+
 
