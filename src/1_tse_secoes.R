@@ -1,4 +1,6 @@
 # setup -------------------------------------------------------------------
+library(tidyverse)
+
 library("basedosdados")
 set_billing_id("tse22-364418")
 
@@ -8,9 +10,9 @@ escolas_municipais, ibge_cnefe_endereco, ibge_cnefe_local, google, google_relaxa
 ibge_povoados, ano
               FROM `basedosdados.br_tse_eleicoes.local_secao` 
               WHERE id_municipio = 3136702 AND ano = 2020
-              LIMIT 500"
+              "
 
-query_tse <- "SELECT zona, secao, melhor_urbano, melhor_rural
+query_tse <- "SELECT zona, secao, melhor_urbano, google_relaxado
               FROM `basedosdados.br_tse_eleicoes.local_secao` 
               WHERE id_municipio = 3136702 AND ano = 2020
               "
@@ -31,13 +33,20 @@ df_secoes_completa <- read.csv("data/tse_jf_completa_20221002.csv")
 # organizando os dados -------------------------------------------------------------------
 
 ## verificando os NAs
+library(tidyselect)
+
 df_secoes_null <- df_secoes %>% 
   filter(
-    !str_detect(melhor_urbano, "POINT")
+    !str_detect(melhor_urbano, "POINT") 
   ) 
 
+df_secoes_recuperado <- df_secoes_null %>% 
+  filter(
+  str_detect(google_relaxado, "POINT")
+  )
 
 ## base sem os NAs
+### WIP IGNORAR
 df_secoes2 <- df_secoes %>% 
   filter(
     str_detect(melhor_urbano, "POINT")
